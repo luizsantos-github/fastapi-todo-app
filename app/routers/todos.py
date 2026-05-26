@@ -11,6 +11,11 @@ from .auth import get_current_user
 
 router = APIRouter()
 
+router = APIRouter(
+    prefix='/todos',
+    tags=['todos']
+)
+
 def get_db():
     db = SessionLocal()
     try:
@@ -62,7 +67,7 @@ async def create_todo(user : user_dependency,
     db.add(todo_model)
     db.commit()
 
-@router.put("/todo/{todo_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.put("/{todo_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def update_todo(user : user_dependency,
                       db: db_dependency,
                       todo_request: TodoRequest,
@@ -79,11 +84,11 @@ async def update_todo(user : user_dependency,
     todo_model.title = todo_request.title
     todo_model.description = todo_request.description
     todo_model.priority = todo_request.priority
-    todo_model.completed = todo_request.completed
+    todo_model.complete = todo_request.complete
     db.add(todo_model)
     db.commit()
 
-@router.delete("/todo/{todo_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{todo_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_todo(user : user_dependency,
                       db: db_dependency,
                       todo_id: int = Path(gt=0)):

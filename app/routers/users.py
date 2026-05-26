@@ -41,7 +41,7 @@ class UserVerification(BaseModel):
     old_password: str
     new_password: str
 
-@router.put("/change_password", status_code=status.HTTP_201_CREATED)
+@router.put("/change_password", status_code=status.HTTP_204_NO_CONTENT)
 async def change_password(user: user_dependency,
                           db: db_dependency,
                           user_verification: UserVerification):
